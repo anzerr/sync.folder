@@ -1,6 +1,6 @@
 
 const util = require('./util.js'),
-	Think = require('../src/think.js');
+	Think = require('think.library');
 
 class Queue {
 

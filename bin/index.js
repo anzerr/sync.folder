@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const path = require('path'),
-	Watcher = require('../index.js'),
+	Watcher = require('fs.watcher'),
 	Queue = require('./queue.js');
 
 const [,, ...args] = process.argv, cwd = process.cwd();

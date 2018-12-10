@@ -9,6 +9,10 @@
 	"keywords": [],
 	"author": "",
 	"license": "ISC",
+	"dependencies": {
+		"think.library": "git+ssh://git@github.com:anzerr/think.library.git",
+		"fs.watcher": "git+ssh://git@github.com:anzerr/fs.watcher.git"
+	},
 	"devDependencies": {
 		"eslint": "^5.9.0",
 		"eslint-config-basic": "git+ssh://git@github.com/anzerr/eslintrc.git"
