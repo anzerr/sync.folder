@@ -2,7 +2,7 @@
 const sync = require('./index.js');
 
 let port = 5935;
-new sync.Server('./bin', 'localhost:' + port);
+new sync.Server('./tmp', 'localhost:' + port);
 let client = new sync.Client('./src', 'localhost:' + port);
 
 client.on('remove', (r) => {

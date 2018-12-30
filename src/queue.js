@@ -6,15 +6,18 @@ const path = require('path'),
 
 class Queue extends require('events') {
 
-	constructor(dir, remote) {
+	constructor(dir, remote, tick = 1) {
 		super();
 		this._remote = remote;
 		this._dir = path.resolve(dir);
 		this._client = new sync.Client(this._remote);
 		this._queue = [];
-		this.think = new Think(() => {
-			return this.tick();
-		}, 500);
+		this.think = [];
+		for (let i = 0; i < tick; i++) {
+			this.think.push(new Think(() => {
+				return this.tick();
+			}, 500));
+		}
 	}
 
 	tick() {
