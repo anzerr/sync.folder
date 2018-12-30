@@ -14,6 +14,8 @@ if (cli.argument().is('client')) {
 }
 
 if (cli.argument().is('server')) {
-	new sync.Server(path.join(cwd, cli.get('cwd')), cli.has('host') ? cli.get('host') : '0.0.0.0:5935');
+	let server = new sync.Server(path.join(cwd, cli.get('cwd')), cli.has('host') ? cli.get('host') : '0.0.0.0:5935');
+	server.on('remove', (r) => console.log('removed', r));
+	server.on('add', (r) => console.log('add', r));
 	return;
 }

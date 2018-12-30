@@ -16,7 +16,7 @@ npm link
 ### `Example`
 
 ``` bash
-syncF server --host localhost:596 --cwd ./src
+syncF server --host localhost:596 --cwd ./tmp
 syncF client --host localhost:596 --cwd ./src
 ```
 
