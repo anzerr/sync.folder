@@ -8,7 +8,7 @@
 	},
 	"keywords": [],
 	"author": "anzerr",
-	"license": "ISC",
+	"license": "MIT",
 	"dependencies": {
 		"cli.util": "git+ssh://git@github.com/anzerr/cli.util.git",
 		"file.stream": "git+ssh://git@github.com/anzerr/file.stream.git",
