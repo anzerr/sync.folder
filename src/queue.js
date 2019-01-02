@@ -6,7 +6,7 @@ const path = require('path'),
 
 class Queue extends require('events') {
 
-	constructor(dir, remote, option) {
+	constructor(dir, remote, option = {}) {
 		super();
 		this._remote = remote;
 		this._dir = path.resolve(dir);

@@ -4,7 +4,7 @@ const Watcher = require('fs.watcher'),
 
 class Client extends require('events') {
 
-	constructor(dir, server, options) {
+	constructor(dir, server, options = {}) {
 		super();
 		this._queue = new Queue(dir, server, options);
 		this._queue.on('remove', (a) => this.emit('remove', a));

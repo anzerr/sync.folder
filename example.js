@@ -6,7 +6,7 @@ process.on('unhandledRejection', (reason, p) => {
 	console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
 
-fs.mkdir('./tmp').then(() => {
+fs.mkdir('./tmp').catch((e) => e).then(() => {
 	let port = 5935;
 	new sync.Server('./tmp', 'localhost:' + port);
 	let client = new sync.Client('./src', 'localhost:' + port);

@@ -6,7 +6,9 @@ process.on('unhandledRejection', (reason, p) => {
 
 const Cli = require('cli.util'),
 	path = require('path'),
-	sync = require('../index.js');
+	url = require('url'),
+	sync = require('../index.js'),
+	Server = require('static.http');
 
 let cli = new Cli(process.argv, {}), cwd = process.cwd();
 
@@ -37,7 +39,16 @@ if (cli.argument().is('client')) {
 }
 
 if (cli.argument().is('server')) {
-	let server = new sync.Server(path.join(cwd, cli.get('cwd')), cli.has('host') ? cli.get('host') : '0.0.0.0:5935');
+	let uri = cli.has('host') ? cli.get('host') : '0.0.0.0:5935',
+		dir = path.join(cwd, cli.get('cwd'));
+
+	let static = new Server(Number(url.parse(uri).port) + 1, dir)
+		.on('log', console.log)
+		.create().then(() => {
+			console.log('Server started', static.static.port);
+		});
+
+	let server = new sync.Server(dir, uri);
 	server.on('remove', (r) => console.log('removed', r));
 	server.on('add', (r) => console.log('add', r));
 
@@ -45,6 +56,7 @@ if (cli.argument().is('server')) {
 	server.on('close', (r) => {
 		console.log('close', r);
 		server.close();
+		static._server.close(); // fix
 		setTimeout(() => process.exit(0), 1000);
 	});
 	server.on('connect', (r) => console.log('connect', r));
