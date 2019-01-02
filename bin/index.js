@@ -41,11 +41,12 @@ if (cli.argument().is('client')) {
 if (cli.argument().is('server')) {
 	let uri = cli.has('host') ? cli.get('host') : '0.0.0.0:5935',
 		dir = path.join(cwd, cli.get('cwd'));
+	uri = (uri.match(/^.*?:\/\//)) ? uri : 'tcp://' + uri;
 
 	let static = new Server(Number(url.parse(uri).port) + 1, dir)
 		.on('log', console.log)
 		.create().then(() => {
-			console.log('Server started', static.static.port);
+			console.log('Server started');
 		});
 
 	let server = new sync.Server(dir, uri);
