@@ -6,7 +6,7 @@ const path = require('path'),
 
 class Queue extends require('events') {
 
-	constructor(dir, remote, tick = 1) {
+	constructor(dir, remote, option) {
 		super();
 		this._remote = remote;
 		this._dir = path.resolve(dir);
@@ -16,11 +16,19 @@ class Queue extends require('events') {
 		this._client.on('close', (e) => this.emit('close', e));
 		this._queue = [];
 		this.think = [];
+		let tick = option.tick || 1;
 		for (let i = 0; i < tick; i++) {
 			this.think.push(new Think(() => {
 				return this.tick();
-			}, 500));
+			}, option.rate || 500));
 		}
+	}
+
+	close() {
+		for (let i in this.think) {
+			this.think[i].stop();
+		}
+		return this;
 	}
 
 	tick() {
