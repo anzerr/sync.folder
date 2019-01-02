@@ -18,6 +18,9 @@ class Server extends require('events') {
 			this._server = new sync.Server(cwd, uri);
 			this._server.on('remove', (a) => this.emit('remove', a));
 			this._server.on('add', (a) => this.emit('add', a));
+			this._server.on('error', (e) => this.emit('error', e));
+			this._server.on('open', (e) => this.emit('open', e));
+			this._server.on('close', (e) => this.emit('close', e));
 		});
 	}
 

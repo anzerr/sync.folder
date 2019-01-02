@@ -4,13 +4,22 @@ const Watcher = require('fs.watcher'),
 
 class Client extends require('events') {
 
-	constructor(dir, server) {
+	constructor(dir, server, exclude) {
 		super();
 		this._queue = new Queue(dir, server);
 		this._queue.on('remove', (a) => this.emit('remove', a));
 		this._queue.on('add', (a) => this.emit('add', a));
-		this._watcher = new Watcher(dir).on('change', (r) => {
-			this._queue.on('change', r);
+		this._queue.on('connect', (a) => this.emit('connect', a));
+		this._queue.on('error', (a) => this.emit('error', a));
+		this._queue.on('close', (a) => this.emit('close', a));
+		this._watcher = new Watcher(dir, (file) => {
+			this.emit('exclude', file);
+			if (exclude && !exclude(file)) {
+				return false;
+			}
+			return true;
+		}).on('change', (r) => {
+			this._queue.emit('change', r);
 			if ((r[0] === 'add' || r[0] === 'change') && !r[1]) {
 				this._queue.add(r[2]);
 			}

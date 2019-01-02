@@ -11,6 +11,9 @@ class Queue extends require('events') {
 		this._remote = remote;
 		this._dir = path.resolve(dir);
 		this._client = new sync.Client(this._remote);
+		this._client.on('connect', (e) => this.emit('connect', e));
+		this._client.on('error', (e) => this.emit('error', e));
+		this._client.on('close', (e) => this.emit('close', e));
 		this._queue = [];
 		this.think = [];
 		for (let i = 0; i < tick; i++) {
