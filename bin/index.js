@@ -15,10 +15,11 @@ const Cli = require('cli.util'),
 
 let cli = new Cli(process.argv, {}), cwd = process.cwd();
 
-console.log(cli);
-
 if (cli.argument().is('client')) {
-	let client = new sync.Client(path.join(cwd, cli.get('cwd')), cli.has('host') ? cli.get('host') : 'localhost:5935', {
+	let uri = cli.has('host') ? cli.get('host') : '0.0.0.0:5935',
+		dir = path.resolve(cli.get('cwd') || cwd);
+
+	let client = new sync.Client(dir, uri, {
 		exclude: (file) => {
 			if (file.match(/(\.git|node_modules)/)) {
 				return false;
@@ -45,7 +46,7 @@ if (cli.argument().is('client')) {
 
 if (cli.argument().is('server')) {
 	let uri = cli.has('host') ? cli.get('host') : '0.0.0.0:5935',
-		dir = path.join(cwd, cli.get('cwd'));
+		dir = path.resolve(cli.get('cwd') || cwd);
 	uri = (uri.match(/^.*?:\/\//)) ? uri : 'tcp://' + uri;
 
 	console.log('uri', uri);
@@ -79,6 +80,7 @@ if (cli.argument().is('dockerfile')) {
 			'apk upgrade',
 			'apk add git bash',
 			'mkdir -p /home/anzerr/workdir/',
+			'echo "test" > /home/anzerr/workdir/test.md',
 			'cd /home/anzerr/',
 			'git clone https://github.com/anzerr/sync.folder.git',
 			'cd sync.folder',
@@ -87,7 +89,7 @@ if (cli.argument().is('dockerfile')) {
 			'git config --global url."https://".insteadOf ssh://',
 			'npm install --only=prod'
 		].join(' && '),
-		'CMD node /home/anzerr/sync.folder/bin/index.js server --host 0.0.0.0:5970 --cwd /home/anzerr/wokrdir'
+		'CMD node /home/anzerr/sync.folder/bin/index.js server --host 0.0.0.0:2970 --cwd /home/anzerr/wokrdir'
 	].join('\n') + '\n').then(() => console.log('done')).catch(console.log);
 }
 
