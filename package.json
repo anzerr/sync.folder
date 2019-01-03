@@ -4,7 +4,11 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"create": "docker run -i -t -p 2970:5970 -p 2971:5971 -p 2972:22 -p 9229:9229 anzerr/env:latest",
+		"dockerfile": "syncF dockerfile",
+		"build": "syncF build",
+		"server": "syncF server --host localhost:596 --cwd ./tmp",
+		"client": "syncF client --host localhost:596 --cwd ./src"
 	},
 	"keywords": [],
 	"author": "anzerr",
@@ -14,6 +18,7 @@
 		"file.stream": "git+ssh://git@github.com/anzerr/file.stream.git",
 		"fs.promisify": "git+ssh://git@github.com/anzerr/fs.promisify.git",
 		"fs.watcher": "git+ssh://git@github.com:anzerr/fs.watcher.git",
+		"fs.remove": "git+ssh://git@github.com/anzerr/fs.remove.git",
 		"static.http": "git+ssh://git@github.com/anzerr/static.http.git",
 		"think.library": "git+ssh://git@github.com:anzerr/think.library.git"
 	},

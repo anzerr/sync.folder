@@ -8,6 +8,9 @@ const Cli = require('cli.util'),
 	path = require('path'),
 	url = require('url'),
 	sync = require('../index.js'),
+	util = require('./util.js'),
+	{version} = require('../package.json'),
+	fs = require('fs.promisify'),
 	Server = require('static.http');
 
 let cli = new Cli(process.argv, {}), cwd = process.cwd();
@@ -63,4 +66,30 @@ if (cli.argument().is('server')) {
 	server.on('connect', (r) => console.log('connect', r));
 	server.on('open', (r) => console.log('open', r));
 	return;
+}
+
+if (cli.argument().is('dockerfile')) {
+	fs.writeFile('Dockerfile', [
+		'FROM node:11.1.0-alpine',
+		'RUN ' + [
+			'apk update',
+			'apk upgrade',
+			'apk add git bash',
+			'mkdir -p /home/anzerr/workdir',
+			'cd /home/anzerr/',
+			'git clone https://github.com/anzerr/sync.folder.git',
+			'cd sync.folder',
+			'git config --global url."https://github.com/".insteadOf git@github.com:',
+			'git config --global url."https://".insteadOf git://',
+			'git config --global url."https://".insteadOf ssh://',
+			'npm install --only=prod'
+		].join(' && '),
+		'CMD node /home/anzerr/sync.folder/bin/index.js server --host 0.0.0.0:5970 --cwd /home/anzerr/wokrdir'
+	].join('\n') + '\n').then(() => console.log('done')).catch(console.log);
+}
+
+if (cli.argument().is('build')) {
+	util.exec('syncF dockerfile').then(() => {
+		return util.exec('docker build --no-cache -t anzerr/env:' + version + ' -t anzerr/env:latest ..', {env: process.env});
+	}).then(() => console.log('done')).catch(console.log);
 }
