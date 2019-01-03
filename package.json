@@ -4,9 +4,9 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"create": "docker run -i -t -d -p 2970:5970 -p 2971:5971 -p 2972:22 -p 9229:9229 anzerr/env:latest",
-		"dockerfile": "syncF dockerfile",
-		"build": "syncF build",
+		"create": "docker run -i -t -d -p 2970:5970 -p 2971:5971 -p 2972:2972 -p 9229:9229 anzerr/env:latest",
+		"dockerfile": "node bin/index.js dockerfile",
+		"build": "node bin/index.js build",
 		"start": "syncF server --host localhost:596 --cwd ./tmp",
 		"client": "syncF client --host localhost:596 --cwd ./src"
 	},

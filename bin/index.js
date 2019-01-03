@@ -72,13 +72,30 @@ if (cli.argument().is('server')) {
 	return;
 }
 
-if (cli.argument().is('dockerfile')) {
-	fs.writeFile('Dockerfile', [
-		'FROM node:11.1.0-alpine',
+let dockerfile = () => {
+	return fs.writeFile('Dockerfile', [
+		'FROM node:11.1.0-alpine', // need to add ssh so you can do anywhere not just the machine
 		'RUN ' + [
 			'apk update',
 			'apk upgrade',
-			'apk add git bash',
+			'apk add git bash openssh-server', // rsyslog
+			// 'mkdir -p /var/run/sshd',
+			// 'echo \'root:screencast\' | chpasswd',
+			// 'adduser -D -g hadoop -h /home/cat -s /bin/bash cat',
+			// 'usermod -p \'*\' cat',
+			// 'echo \'cat:screencast\' | chpasswd',
+			// 'echo "\$ModLoad inmark.so" >> /etc/rsyslog.conf',
+			// 'echo "\$IncludeConfig /etc/rsyslog.d/*.conf" >> /etc/rsyslog.conf',
+			// 'echo "auth,authpriv.* /var/log/auth.log" >> /etc/rsyslog.conf',
+			// 'sed -i "s/#LogLevel.*/LogLevel DEBUG/g" /etc/ssh/sshd_config',
+			// 'sed -i "s/#SyslogFacility.*/SyslogFacility AUTH/g" /etc/ssh/sshd_config',
+			// 'sed -i \'s/PermitRootLogin prohibit-password/PermitRootLogin yes/\' /etc/ssh/sshd_config',
+			// 'sed -i \'s/#PermitRootLogin/PermitRootLogin/\' /etc/ssh/sshd_config',
+			// 'sed -i \'s/#Port 22/Port 2972/\' /etc/ssh/sshd_config',
+			// 'sed -i \'s/AuthorizedKeysFile/#AuthorizedKeysFile/\' /etc/ssh/sshd_config',
+			// 'sed -i \'s/#PasswordAuthentication/PasswordAuthentication/\' /etc/ssh/sshd_config',
+			// 'echo "export VISIBLE=now" >> /etc/profile',
+			// 'ssh-keygen -t rsa -N "" -f /etc/ssh/ssh_host_rsa_key',
 			'mkdir -p /home/anzerr/workdir/',
 			'cd /home/anzerr/',
 			'git clone https://github.com/anzerr/sync.folder.git',
@@ -88,12 +105,16 @@ if (cli.argument().is('dockerfile')) {
 			'git config --global url."https://".insteadOf ssh://',
 			'npm install --only=prod'
 		].join(' && '),
-		'CMD node /home/anzerr/sync.folder/bin/index.js server --host 0.0.0.0:5970 --cwd /home/anzerr/workdir'
+		'CMD node /home/anzerr/sync.folder/bin/index.js server --host 0.0.0.0:5970 --cwd /home/anzerr/workdir' // ; /usr/sbin/sshd -f /etc/ssh/sshd_config
 	].join('\n') + '\n').then(() => console.log('done')).catch(console.log);
+};
+
+if (cli.argument().is('dockerfile')) {
+	dockerfile();
 }
 
 if (cli.argument().is('build')) {
-	util.exec('syncF dockerfile').then(() => {
-		return util.exec('docker build --no-cache -t anzerr/env:' + version + ' -t anzerr/env:latest ..', {env: process.env});
+	dockerfile().then(() => {
+		return util.exec('docker build --no-cache -t anzerr/env:' + version + ' -t anzerr/env:latest .', {cwd: path.join(__dirname, '..'), env: process.env});
 	}).then(() => console.log('done')).catch(console.log);
 }
