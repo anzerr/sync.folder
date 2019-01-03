@@ -80,7 +80,6 @@ if (cli.argument().is('dockerfile')) {
 			'apk upgrade',
 			'apk add git bash',
 			'mkdir -p /home/anzerr/workdir/',
-			'echo "test" > /home/anzerr/workdir/test.md',
 			'cd /home/anzerr/',
 			'git clone https://github.com/anzerr/sync.folder.git',
 			'cd sync.folder',
@@ -89,7 +88,7 @@ if (cli.argument().is('dockerfile')) {
 			'git config --global url."https://".insteadOf ssh://',
 			'npm install --only=prod'
 		].join(' && '),
-		'CMD node /home/anzerr/sync.folder/bin/index.js server --host 0.0.0.0:2970 --cwd /home/anzerr/wokrdir'
+		'CMD node /home/anzerr/sync.folder/bin/index.js server --host 0.0.0.0:5970 --cwd /home/anzerr/workdir'
 	].join('\n') + '\n').then(() => console.log('done')).catch(console.log);
 }
 
