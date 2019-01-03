@@ -4,7 +4,7 @@
 	"description": "",
 	"main": "index.js",
 	"scripts": {
-		"create": "docker run -i -t -p 2970:5970 -p 2971:5971 -p 2972:22 -p 9229:9229 anzerr/env:latest",
+		"create": "docker run -i -t -d -p 2970:5970 -p 2971:5971 -p 2972:22 -p 9229:9229 anzerr/env:latest",
 		"dockerfile": "syncF dockerfile",
 		"build": "syncF build",
 		"server": "syncF server --host localhost:596 --cwd ./tmp",

@@ -15,6 +15,8 @@ const Cli = require('cli.util'),
 
 let cli = new Cli(process.argv, {}), cwd = process.cwd();
 
+console.log(cli);
+
 if (cli.argument().is('client')) {
 	let client = new sync.Client(path.join(cwd, cli.get('cwd')), cli.has('host') ? cli.get('host') : 'localhost:5935', {
 		exclude: (file) => {
@@ -46,6 +48,7 @@ if (cli.argument().is('server')) {
 		dir = path.join(cwd, cli.get('cwd'));
 	uri = (uri.match(/^.*?:\/\//)) ? uri : 'tcp://' + uri;
 
+	console.log('uri', uri);
 	let static = new Server(Number(url.parse(uri).port) + 1, dir)
 		.on('log', console.log)
 		.create().then(() => {
@@ -75,7 +78,7 @@ if (cli.argument().is('dockerfile')) {
 			'apk update',
 			'apk upgrade',
 			'apk add git bash',
-			'mkdir -p /home/anzerr/workdir',
+			'mkdir -p /home/anzerr/workdir/',
 			'cd /home/anzerr/',
 			'git clone https://github.com/anzerr/sync.folder.git',
 			'cd sync.folder',
