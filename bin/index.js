@@ -4,7 +4,7 @@ process.on('unhandledRejection', (reason, p) => {
 	console.log('Unhandled Rejection at: Promise', p, 'reason:', reason);
 });
 
-const Cli = require('cli.util'),
+const {Cli, Map} = require('cli.util'),
 	path = require('path'),
 	url = require('url'),
 	sync = require('../index.js'),
@@ -13,7 +13,10 @@ const Cli = require('cli.util'),
 	fs = require('fs.promisify'),
 	Server = require('static.http');
 
-let cli = new Cli(process.argv, {}), cwd = process.cwd();
+let cli = new Cli(process.argv, [
+		new Map('host').alias(['h', 'H']).arg(),
+		new Map('cwd').alias(['c', 'C']).arg()
+	]), cwd = process.cwd();
 
 if (cli.argument().is('client')) {
 	let uri = cli.has('host') ? cli.get('host') : '0.0.0.0:5935',
@@ -118,3 +121,5 @@ if (cli.argument().is('build')) {
 		return util.exec('docker build --no-cache -t anzerr/env:' + version + ' -t anzerr/env:latest .', {cwd: path.join(__dirname, '..'), env: process.env});
 	}).then(() => console.log('done')).catch(console.log);
 }
+
+throw new Error('no valid argument given');
