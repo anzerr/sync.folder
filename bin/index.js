@@ -53,7 +53,7 @@ if (cli.argument().is('server')) {
 	uri = (uri.match(/^.*?:\/\//)) ? uri : 'tcp://' + uri;
 
 	console.log('uri', uri);
-	let static = new Server(Number(url.parse(uri).port) + 1, dir)
+	let static = new Server(Number(url.parse(uri).port) + 1, dir, 'html')
 		.on('log', console.log)
 		.create().then(() => {
 			console.log('Server started');
