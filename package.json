@@ -14,17 +14,17 @@
 	"author": "anzerr",
 	"license": "MIT",
 	"dependencies": {
-		"cli.util": "git+ssh://git@github.com/anzerr/cli.util.git",
-		"file.stream": "git+ssh://git@github.com/anzerr/file.stream.git",
-		"fs.promisify": "git+ssh://git@github.com/anzerr/fs.promisify.git",
+		"cli.util": "git+http://git@github.com/anzerr/cli.util.git",
+		"file.stream": "git+http://git@github.com/anzerr/file.stream.git",
+		"fs.promisify": "git+http://git@github.com/anzerr/fs.promisify.git",
 		"fs.watcher": "git+ssh://git@github.com:anzerr/fs.watcher.git",
-		"fs.remove": "git+ssh://git@github.com/anzerr/fs.remove.git",
-		"static.http": "git+ssh://git@github.com/anzerr/static.http.git",
+		"fs.remove": "git+http://git@github.com/anzerr/fs.remove.git",
+		"static.http": "git+http://git@github.com/anzerr/static.http.git",
 		"think.library": "git+ssh://git@github.com:anzerr/think.library.git"
 	},
 	"devDependencies": {
 		"eslint": "^5.9.0",
-		"eslint-config-basic": "git+ssh://git@github.com/anzerr/eslintrc.git"
+		"eslint-config-basic": "git+http://git@github.com/anzerr/eslintrc.git"
 	},
 	"eslintConfig": {
 		"extends": "eslint-config-basic"
