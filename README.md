@@ -4,11 +4,11 @@ A tool to sync directories on a remote server
 
 #### `Install`
 ``` bash
-npm install --save git+http://git@github.com/anzerr/sync.folder.git
+npm install --save git+https://git@github.com/anzerr/sync.folder.git
 ```
 
 ``` bash
-git clone git+http://git@github.com/anzerr/sync.folder.git &&
+git clone http://git@github.com/anzerr/sync.folder.git &&
 cd sync.folder &&
 npm link
 ```
