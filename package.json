@@ -1,8 +1,22 @@
 {
 	"name": "sync.folder",
 	"version": "1.0.0",
-	"description": "",
+	"keywords": [],
+	"homepage": "https://github.com/anzerr/sync.folder#readme",
+	"bugs": {
+		"url": "https://github.com/anzerr/sync.folder/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/anzerr/sync.folder.git"
+	},
+	"license": "MIT",
+	"author": "anzerr",
 	"main": "index.js",
+	"types": "index.d.ts",
+	"bin": {
+		"syncF": "./bin/index.js"
+	},
 	"scripts": {
 		"create": "docker run -i -t -d -p 2970:5970 -p 2971:5971 -p 2972:2972 -p 9229:9229 anzerr/env:latest",
 		"dockerfile": "node bin/index.js dockerfile",
@@ -10,9 +24,9 @@
 		"start": "syncF server --host localhost:596 --cwd ./tmp",
 		"client": "syncF client --host localhost:596 --cwd ./src"
 	},
-	"keywords": [],
-	"author": "anzerr",
-	"license": "MIT",
+	"eslintConfig": {
+		"extends": "eslint-config-basic"
+	},
 	"dependencies": {
 		"cli.util": "git+https://git@github.com/anzerr/cli.util.git",
 		"file.stream": "git+https://git@github.com/anzerr/file.stream.git",
@@ -26,22 +40,7 @@
 		"eslint": "^5.9.0",
 		"eslint-config-basic": "git+https://git@github.com/anzerr/eslintrc.git"
 	},
-	"eslintConfig": {
-		"extends": "eslint-config-basic"
-	},
-	"bin": {
-		"syncF": "./bin/index.js"
-	},
-	"repository": {
-		"type": "git",
-		"url": "git+https://github.com/anzerr/sync.folder.git"
-	},
 	"engines": {
 		"node": ">= 0.10.0"
-	},
-	"types": "index.d.ts",
-	"bugs": {
-		"url": "https://github.com/anzerr/sync.folder/issues"
-	},
-	"homepage": "https://github.com/anzerr/sync.folder#readme"
+	}
 }

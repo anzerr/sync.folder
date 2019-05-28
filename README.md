@@ -8,7 +8,7 @@ npm install --save git+https://git@github.com/anzerr/sync.folder.git
 ```
 
 ``` bash
-git clone http://git@github.com/anzerr/sync.folder.git &&
+git clone git+https://git@github.com/anzerr/sync.folder.git &&
 cd sync.folder &&
 npm link
 ```
