@@ -8,7 +8,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/anzerr/sync.folder.git"
+		"url": "git@github.com:anzerr/sync.folder.git"
 	},
 	"license": "MIT",
 	"author": "anzerr",
@@ -37,7 +37,7 @@
 		"think.library": "git+https://git@github.com/anzerr/think.library.git"
 	},
 	"devDependencies": {
-		"eslint": "^5.9.0",
+		"eslint": "5.11.1",
 		"eslint-config-basic": "git+https://git@github.com/anzerr/eslintrc.git"
 	},
 	"engines": {
