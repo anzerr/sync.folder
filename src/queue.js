@@ -2,6 +2,7 @@
 const path = require('path'),
 	fs = require('fs.promisify'),
 	sync = require('file.stream'),
+	util = require('./util.js'),
 	Think = require('think.library');
 
 class Queue extends require('events') {
@@ -11,31 +12,31 @@ class Queue extends require('events') {
 		this._remote = remote;
 		this._dir = path.resolve(dir);
 		this._client = new sync.Client(this._remote);
-		this._client.on('connect', (e) => this.emit('connect', e));
-		this._client.on('error', (e) => this.emit('error', e));
-		this._client.on('close', (e) => this.emit('close', e));
+		this._client.on('connect', (e) => this.emit('connect', e))
+			.on('error', (e) => this.emit('error', e))
+			.on('close', (e) => this.emit('close', e));
 		this._queue = [];
 		this.think = [];
-		let tick = option.tick || 1;
+		let tick = option.tick || 2;
 		for (let i = 0; i < tick; i++) {
 			this.think.push(new Think(() => {
+				if (this._queue.length === 0) {
+					return new Promise((resolve) => setTimeout(resolve, option.rate || 500));
+				}
 				return this.tick();
-			}, option.rate || 500));
+			}, 1));
 		}
-	}
-
-	close() {
-		for (let i in this.think) {
-			this.think[i].stop();
-		}
-		return this;
 	}
 
 	tick() {
 		if (this._queue.length === 0) {
 			return null;
 		}
-		return this.push(this._queue.splice(0, 1)[0]).catch(() => {
+		return this.push(this._queue.splice(0, 1)[0]).then(() => {
+			if (this._queue.length !== 0) {
+				return this.tick();
+			}
+		}).catch(() => {
 			return this.tick();
 		});
 	}
@@ -49,19 +50,25 @@ class Queue extends require('events') {
 				this.emit('remove', remote);
 			});
 		}
-		return new Promise((resolve) => {
-			if (action.type === 'add') {
-				fs.createReadStream(file)
-					.pipe(this._client.createUploadStream(remote))
-					.on('close', () => {
-						resolve();
+		if (action.type === 'add') {
+			return Promise.all([
+				this._client.hash(remote),
+				util.hash(file)
+			]).then((res) => {
+				if (res[0] !== res[1]) {
+					return new Promise((resolve) => {
+						fs.createReadStream(file)
+							.pipe(this._client.createUploadStream(remote))
+							.on('close', () => {
+								resolve();
+							});
 					});
-			} else {
-				throw new Error('unhandled type');
-			}
-		}).then(() => {
-			this.emit('add', remote);
-		});
+				}
+			}).then(() => {
+				this.emit('add', remote);
+			});
+		}
+		throw new Error('unhandled type');
 	}
 
 	remove(file) {
@@ -71,6 +78,14 @@ class Queue extends require('events') {
 
 	add(file) {
 		this._queue.push({type: 'add', file: file});
+		return this;
+	}
+
+	close() {
+		for (let i in this.think) {
+			this.think[i].stop();
+		}
+		this._client.close();
 		return this;
 	}
 

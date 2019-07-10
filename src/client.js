@@ -6,14 +6,21 @@ class Client extends require('events') {
 
 	constructor(dir, server, options = {}) {
 		super();
-		this._queue = new Queue(dir, server, options);
-		this._queue.on('remove', (a) => this.emit('remove', a));
-		this._queue.on('add', (a) => this.emit('add', a));
-		this._queue.on('connect', (a) => this.emit('connect', a));
-		this._queue.on('error', (a) => this.emit('error', a));
-		this._queue.on('close', (a) => this.emit('close', a));
-		let exclude = options.exclude;
-		this._watcher = new Watcher(dir, (file) => {
+		this._dir = dir;
+		this._server = server;
+		this._options = options;
+		this.connect();
+	}
+
+	connect() {
+		this._queue = new Queue(this._dir, this._server, this._options);
+		this._queue.on('remove', (a) => this.emit('remove', a))
+			.on('add', (a) => this.emit('add', a))
+			.on('connect', (a) => this.emit('connect', a))
+			.on('error', (a) => this.emit('error', a))
+			.on('close', (a) => this.emit('close', a));
+		let exclude = this._options.exclude;
+		this._watcher = new Watcher(this._dir, (file) => {
 			this.emit('exclude', file);
 			if (exclude && !exclude(file)) {
 				return false;
@@ -31,6 +38,7 @@ class Client extends require('events') {
 	}
 
 	close() {
+		this._watcher.close();
 		this._queue.close();
 	}
 

@@ -3,21 +3,26 @@
 A tool to sync directories on a remote server
 
 #### `Install`
+use in project
 ``` bash
 npm install --save git+https://git@github.com/anzerr/sync.folder.git
 ```
-
+add command
 ``` bash
 git clone git+https://git@github.com/anzerr/sync.folder.git &&
 cd sync.folder &&
 npm link
 ```
+docker
+``` bash
+docker run -v $(pwd):/cwd -p 3000:3000 -p 3001:3001 anzerr/sync.folder
+syncF client --host 192.168.99.100:3000 --cwd .
+```
 
 ### `Example`
-
 ``` bash
-syncF server --host localhost:596 --cwd ./tmp
-syncF client --host localhost:596 --cwd ./src
+syncF server --host 0.0.0.0:3000 --cwd ./tmp
+syncF client --host localhost:3000 --cwd ./src
 ```
 
 ``` javascript
