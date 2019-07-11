@@ -15,7 +15,7 @@ npm link
 ```
 docker
 ``` bash
-docker run -v $(pwd):/cwd -p 3000:3000 -p 3001:3001 anzerr/sync.folder
+docker run -v $(pwd):/cwd -p 3000:3000 -p 3001:3001 -u `id -u $USER` anzerr/sync.folder
 syncF client --host 192.168.99.100:3000 --cwd .
 ```
 
