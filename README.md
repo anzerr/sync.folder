@@ -5,7 +5,8 @@ A tool to sync directories on a remote server
 #### `Install`
 use in project
 ``` bash
-npm install --save git+https://git@github.com/anzerr/sync.folder.git
+npm install --save git+https://github.com/anzerr/sync.folder.git
+npm install --save @anzerr/sync.folder
 ```
 add command
 ``` bash
