@@ -1,6 +1,6 @@
 {
 	"name": "sync.folder",
-	"version": "1.0.3",
+	"version": "1.0.6",
 	"keywords": [],
 	"homepage": "https://github.com/anzerr/sync.folder#readme",
 	"bugs": {
@@ -37,7 +37,6 @@
 		"think.library": "git+https://git@github.com/anzerr/think.library.git"
 	},
 	"devDependencies": {
-		"eslint": "5.11.1",
 		"eslint-config-basic": "git+https://git@github.com/anzerr/eslintrc.git"
 	},
 	"engines": {
