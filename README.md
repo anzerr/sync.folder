@@ -1,5 +1,9 @@
 
 ### `Intro`
+![GitHub Actions status | linter](https://github.com/anzerr/sync.folder/workflows/linter/badge.svg)
+![GitHub Actions status | publish](https://github.com/anzerr/sync.folder/workflows/publish/badge.svg)
+![GitHub Actions status | test](https://github.com/anzerr/sync.folder/workflows/test/badge.svg)
+
 A tool to sync directories on a remote server
 
 #### `Install`

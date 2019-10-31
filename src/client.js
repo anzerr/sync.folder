@@ -1,6 +1,6 @@
 
 const Watcher = require('fs.watcher'),
-	Queue = require('./queue.js');
+	Queue = require('./client/queue.js');
 
 class Client extends require('events') {
 

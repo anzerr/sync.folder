@@ -18,7 +18,9 @@
 		"syncF": "./bin/index.js"
 	},
 	"scripts": {
-		"create": "docker run -i -t -d -p 2970:5970 -p 2971:5971 -p 2972:2972 -p 9229:9229 anzerr/env:latest",
+		"linter": "eslint index.js src/**",
+		"test": "node test.js",
+		"create": "docker run -i -t -d -p 2970:5970 -p 2971:5971 -p 2972:2972 -p 9229:9229 anzerr/sync.folder:latest",
 		"dockerfile": "node bin/index.js dockerfile",
 		"build": "node bin/index.js build",
 		"start": "syncF server --host localhost:596 --cwd ./tmp",
@@ -30,9 +32,10 @@
 	"dependencies": {
 		"cli.util": "git+https://git@github.com/anzerr/cli.util.git",
 		"file.stream": "git+https://git@github.com/anzerr/file.stream.git",
+		"fs.hash": "git+https://git@github.com/anzerr/fs.hash.git",
 		"fs.promisify": "git+https://git@github.com/anzerr/fs.promisify.git",
-		"fs.watcher": "git+https://git@github.com/anzerr/fs.watcher.git",
 		"fs.remove": "git+https://git@github.com/anzerr/fs.remove.git",
+		"fs.watcher": "git+https://git@github.com/anzerr/fs.watcher.git",
 		"static.http": "git+https://git@github.com/anzerr/static.http.git",
 		"think.library": "git+https://git@github.com/anzerr/think.library.git"
 	},

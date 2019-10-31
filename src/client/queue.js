@@ -2,7 +2,7 @@
 const path = require('path'),
 	fs = require('fs.promisify'),
 	sync = require('file.stream'),
-	util = require('./util.js'),
+	hash = require('fs.hash'),
 	Think = require('think.library');
 
 class Queue extends require('events') {
@@ -53,7 +53,7 @@ class Queue extends require('events') {
 		if (action.type === 'add') {
 			return Promise.all([
 				this._client.hash(remote),
-				util.hash(file)
+				hash(file)
 			]).then((res) => {
 				if (res[0] !== res[1]) {
 					return new Promise((resolve) => {
