@@ -22,9 +22,8 @@ if (cli.argument().is('client')) {
 		tick: 2,
 		rate: 1000 / 30
 	});
-	client.on('remove', (r) => console.log('removed', r));
+	client.on('remove', (r) => console.log('remove', r));
 	client.on('add', (r) => console.log('add', r));
-	client.on('change', (r) => console.log('change', r.toString()));
 
 	client.on('error', (r) => console.log('error', r.toString()));
 	client.on('close', (r) => {

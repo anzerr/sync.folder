@@ -19,6 +19,7 @@ class Client extends require('events') {
 			.on('connect', (a) => this.emit('connect', a))
 			.on('error', (a) => this.emit('error', a))
 			.on('close', (a) => this.emit('close', a));
+
 		let exclude = this._options.exclude;
 		this._watcher = new Watcher(this._dir, (file) => {
 			this.emit('exclude', file);
@@ -31,8 +32,8 @@ class Client extends require('events') {
 			if ((r[0] === 'add' || r[0] === 'change') && !r[1]) {
 				this._queue.add(r[2]);
 			}
-			if (r[0] === 'remove') {
-				this._queue.remove(r[2]);
+			if (r[0] === 'removed') {
+				this._queue.remove(r[1]);
 			}
 		});
 	}
