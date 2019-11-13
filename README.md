@@ -28,6 +28,10 @@ syncF client --host 192.168.99.100:3000 --cwd .
 ``` bash
 syncF server --host 0.0.0.0:3000 --cwd ./tmp
 syncF client --host localhost:3000 --cwd ./src
+
+syncF client --save --name "sync.json" --host 127.0.0.1:3000 --cwd ./server
+syncF client --save --name "sync.json" --host 127.0.0.1:3001 --cwd ./client
+syncF client --load --name "sync.json"
 ```
 
 ``` javascript
