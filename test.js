@@ -8,9 +8,10 @@ let client = null, server = null;
 fs.mkdir('./tmp').catch((e) => e).then(() => {
 	return fs.readdir('./src');
 }).then((src) => {
+	console.log('files', src);
 	let port = 5935;
-	server = new sync.Server('./tmp', 'localhost:' + port);
 	client = new sync.Client('./src', 'localhost:' + port);
+	server = new sync.Server('./tmp', 'localhost:' + port);
 
 	client.on('remove', (r) => {
 		console.log('removed', r);
@@ -18,13 +19,16 @@ fs.mkdir('./tmp').catch((e) => e).then(() => {
 
 	return new Promise((resolve) => {
 		let i = 0;
-		client.on('add', (r) => {
+		let get = (r, type) => {
 			i++;
+			console.log(i, src.length);
 			if (i === src.length) {
 				resolve();
 			}
-			console.log('add', r);
-		});
+			console.log(type, r);
+		};
+		client.on('add', (r) => get(r, 'add'));
+		client.on('valid', (r) => get(r, 'valid'));
 	});
 }).then(() => {
 	return Promise.all([
@@ -37,10 +41,15 @@ fs.mkdir('./tmp').catch((e) => e).then(() => {
 	client.close();
 	client.once('close', () => {
 		console.log('closed, client');
+		client.on('connect', () => {
+			console.log('connected');
+		});
 		client.connect();
 		return new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
 			client.close();
 			server.close();
+			console.log('done');
+			process.exit(0);
 		});
 	});
 }).catch((err) => {

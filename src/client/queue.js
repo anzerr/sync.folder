@@ -62,10 +62,11 @@ class Queue extends require('events') {
 							.on('close', () => {
 								resolve();
 							});
+					}).then(() => {
+						this.emit('add', remote);
 					});
 				}
-			}).then(() => {
-				this.emit('add', remote);
+				this.emit('valid', remote);
 			});
 		}
 		throw new Error('unhandled type');

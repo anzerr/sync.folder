@@ -15,9 +15,11 @@ class Client extends require('events') {
 	}
 
 	connect() {
+		this.close();
 		this._queue = new Queue(this._dir, this._server, this._options);
 		this._queue.on('remove', (a) => this.emit('remove', a))
 			.on('add', (a) => this.emit('add', a))
+			.on('valid', (a) => this.emit('valid', a))
 			.on('connect', (a) => this.emit('connect', a))
 			.on('error', (a) => this.emit('error', a))
 			.on('close', (a) => this.emit('close', a));
@@ -42,12 +44,16 @@ class Client extends require('events') {
 			if (r[0] === 'removed') {
 				this._queue.remove(r[1]);
 			}
-		});
+		}).on('error', (err) => console.log(err));
 	}
 
 	close() {
-		this._watcher.close();
-		this._queue.close();
+		if (this._watcher) {
+			this._watcher.close();
+		}
+		if (this._queue) {
+			this._queue.close();
+		}
 	}
 
 }

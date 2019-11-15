@@ -16,6 +16,7 @@ class Bin {
 	hook(obj, cd) {
 		obj.on('remove', (r) => this.log('removed', r));
 		obj.on('add', (r) => this.log('add', r));
+		obj.on('valid', (r) => this.log('valid', r));
 
 		obj.on('error', (r) => this.log('error', r));
 		obj.on('close', (r) => {

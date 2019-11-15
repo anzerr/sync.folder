@@ -21,8 +21,6 @@
 		"linter": "eslint index.js src/**",
 		"test": "node test.js",
 		"create": "docker run -i -t -d -p 2970:5970 -p 2971:5971 -p 2972:2972 -p 9229:9229 anzerr/sync.folder:latest",
-		"dockerfile": "node bin/index.js dockerfile",
-		"build": "node bin/index.js build",
 		"start": "syncF server --host localhost:596 --cwd ./tmp",
 		"client": "syncF client --host localhost:596 --cwd ./src"
 	},
