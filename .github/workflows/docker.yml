@@ -20,10 +20,10 @@ jobs:
           registry: docker.pkg.github.com
           args: |
             git submodule update --init --recursive &&
-            echo $(gha name -r -u anzerr -t client) &&
-            docker build -t $(gha name -r -u anzerr -t client) -t $(gha name -r -u anzerr -t client -v latest) . &&
-            docker push $(gha name -r -u anzerr -t client) &&
-            docker push $(gha name -r -u anzerr -t client -v latest)
+            echo $(gha name -r -u anzerr -t sync.folder) &&
+            docker build -t $(gha name -r -u anzerr -t sync.folder) -t $(gha name -r -u anzerr -t sync.folder -v latest) . &&
+            docker push $(gha name -r -u anzerr -t sync.folder) &&
+            docker push $(gha name -r -u anzerr -t sync.folder -v latest)
       - uses: anzerr/docker.action@master
         with:
           username: ${{ secrets.DOCKER_USERNAME }}

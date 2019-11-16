@@ -13,9 +13,7 @@ fs.mkdir('./tmp').catch((e) => e).then(() => {
 	server = new sync.Server('./tmp', `0.0.0.0:${port}`);
 	client = new sync.Client('./src', `localhost:${port}`);
 
-	client.on('remove', (r) => {
-		console.log('removed', r);
-	});
+	client.on('remove', (r) => console.log('removed', r));
 
 	return new Promise((resolve) => {
 		let i = 0;
@@ -41,9 +39,7 @@ fs.mkdir('./tmp').catch((e) => e).then(() => {
 	client.close();
 	client.once('close', () => {
 		console.log('closed, client');
-		client.on('connect', () => {
-			console.log('connected');
-		});
+		client.on('connect', () => console.log('connected'));
 		client.connect();
 		return new Promise((resolve) => setTimeout(resolve, 1000)).then(() => {
 			client.close();
