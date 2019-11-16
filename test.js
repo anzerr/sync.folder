@@ -10,8 +10,8 @@ fs.mkdir('./tmp').catch((e) => e).then(() => {
 }).then((src) => {
 	console.log('files', src);
 	let port = 5935;
+	server = new sync.Server('./tmp', `0.0.0.0:${port}`);
 	client = new sync.Client('./src', `localhost:${port}`);
-	server = new sync.Server('./tmp', `localhost:${port}`);
 
 	client.on('remove', (r) => {
 		console.log('removed', r);
