@@ -74,14 +74,14 @@ let cli = new Cli(process.argv, [
 
 if (cli.argument().is('client')) {
 	let uri = cli.has('host') ? cli.get('host') : 'localhost:3000',
-		dir = path.resolve(cli.get('cwd') || cwd),
+		dir = cli.get('cwd') || cwd,
 		exclude = cli.has('exclude') ? new RegExp(cli.get('exclude')) : /(\.git|node_modules)/,
 		name = cli.has('name') ? cli.get('name') : 'sync.json';
 
 	if (cli.has('load')) {
 		return bin.load(name).then((res) => {
 			for (let i in res) {
-				bin.client(res[i].dir, res[i].uri, new RegExp(res[i].exclude.slice(1, -1)));
+				bin.client(path.resolve(res[i].dir), res[i].uri, new RegExp(res[i].exclude.slice(1, -1)));
 			}
 		});
 	}
@@ -89,7 +89,7 @@ if (cli.argument().is('client')) {
 	if (cli.has('save')) {
 		return bin.save(name, {dir: dir, uri: uri, exclude: exclude}).then(() => bin.client(dir, uri, exclude));
 	}
-	return bin.client(dir, uri, exclude);
+	return bin.client(path.resolve(dir), uri, exclude);
 }
 
 if (cli.argument().is('server')) {
