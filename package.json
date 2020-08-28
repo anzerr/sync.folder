@@ -1,6 +1,6 @@
 {
 	"name": "sync.folder",
-	"version": "1.0.21",
+	"version": "1.0.22",
 	"description": "sync directories over socket",
 	"keywords": [
 		"filesystem",
