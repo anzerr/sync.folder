@@ -26,14 +26,10 @@
 		"syncF": "./bin/index.js"
 	},
 	"scripts": {
-		"linter": "eslint index.js src/**",
 		"test": "node test.js",
 		"create": "docker run -i -t -d -p 2970:5970 -p 2971:5971 -p 2972:2972 -p 9229:9229 anzerr/sync.folder:latest",
 		"start": "syncF server --host localhost:596 --cwd ./tmp",
 		"client": "syncF client --host localhost:596 --cwd ./src"
-	},
-	"eslintConfig": {
-		"extends": "eslint-config-basic"
 	},
 	"dependencies": {
 		"cli.util": "git+https://git@github.com/anzerr/cli.util.git",
@@ -45,9 +41,7 @@
 		"static.http": "git+https://git@github.com/anzerr/static.http.git",
 		"think.library": "git+https://git@github.com/anzerr/think.library.git"
 	},
-	"devDependencies": {
-		"eslint-config-basic": "git+https://git@github.com/anzerr/eslintrc.git"
-	},
+	"devDependencies": {},
 	"engines": {
 		"node": ">= 0.10.0"
 	}
